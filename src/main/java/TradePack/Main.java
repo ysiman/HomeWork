@@ -19,7 +19,7 @@ public class Main {
         double myAmount;
         double minQuantity;
         double avgPrice;
-        double avgPriceTest2;
+        double avgPriceTest3;
         Exmo e = new Exmo("K-ad422d7a8bbf80d49aee9adda44f8a41b6612b09","S-ffc2ebde3580d2ff2f50812b0db19d8241ddaad6");
         /*String result = e.Request("user_info", null);
         System.out.println(result);
