@@ -16,6 +16,6 @@ public class Test {
             }
         };
         System.out.println("hm[limit] = " + hm.get("limit"));
-        testI = 1;
+        testI = 2;
     }
 }
