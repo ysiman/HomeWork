@@ -7,6 +7,7 @@ import java.util.HashMap;
  */
 public class Test {
     public static void main(String[] args) {
+        int testI;
         HashMap hm =  new HashMap<String, String>()
         {
             {
@@ -15,5 +16,6 @@ public class Test {
             }
         };
         System.out.println("hm[limit] = " + hm.get("limit"));
+        testI = 1;
     }
 }
