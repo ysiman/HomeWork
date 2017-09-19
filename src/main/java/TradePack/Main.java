@@ -33,11 +33,18 @@ public class Main {
                 }
                 );
         System.out.println("result2="+result2);*/
+        String openedOrders = e.Request("user_open_orders",null);
+        System.out.println("openedOrders="+openedOrders);
 
-
+        if (openedOrders.equals("{}"))
+            System.out.println("No opened orders");
+        openedOrders ="{\"BTC_USD\": [{\"order_id\": \"14\",\"created\": \"1435517311\",\"type\": \"buy\",\"pair\": \"BTC_USD\",\"price\": \"100\",\"quantity\": \"1\",\"amount\": \"100\"}]}";
+        System.out.println("openedOrders="+openedOrders);
         String tradesInfo = e.Request("trades", new HashMap<String, String>() {{put("pair", CURRENT_PAIR);}});
         TradeInfo tradeInfo = new TradeInfo(tradesInfo,"BTC_USD");
         //System.out.println(tradesInfo);
+
+
 
         tradeInfo.priceGrow();
 
