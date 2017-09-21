@@ -42,8 +42,13 @@ public class Main {
         System.out.println("openedOrders="+openedOrders);
         String tradesInfo = e.Request("trades", new HashMap<String, String>() {{put("pair", CURRENT_PAIR);}});
         TradeInfo tradeInfo = new TradeInfo(tradesInfo,"BTC_USD");
-        //System.out.println(tradesInfo);
-
+       // System.out.println(tradesInfo);
+//-----------------------
+        JsonWorker jsonWorker = new JsonWorker();
+        jsonWorker.setJsonObj(tradesInfo);
+        jsonWorker.setArrayName("BTC_USD");
+        jsonWorker.getArrElem("price");
+        //----------------------------
 
 
         tradeInfo.priceGrow();
