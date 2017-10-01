@@ -20,6 +20,7 @@ public class Main {
         double minQuantity;
         double avgPrice;
         double avgPriceTest4;
+        JsonWorker jsonWorker = new JsonWorker();
         Exmo e = new Exmo("K-ad422d7a8bbf80d49aee9adda44f8a41b6612b09","S-ffc2ebde3580d2ff2f50812b0db19d8241ddaad6");
         /*String result = e.Request("user_info", null);
         System.out.println(result);
@@ -33,21 +34,51 @@ public class Main {
                 }
                 );
         System.out.println("result2="+result2);*/
+
+        //информация об открытых ордерах
         String openedOrders = e.Request("user_open_orders",null);
         System.out.println("openedOrders="+openedOrders);
 
+        String buyOrderHist ;
         if (openedOrders.equals("{}"))
             System.out.println("No opened orders");
+        else {
+            jsonWorker.setJsonObj(openedOrders);
+            jsonWorker.setArrayName("BTC_USD");
+            String orderTypr = jsonWorker.getElemStr("type");
+            //Проверка ордеров на продажу
+            if (orderTypr.equals("sell")) {
+                System.out.println("Sell oreder exists.Waiting...");
+                return;
+            }
+            else {
+                String myBuyOrderId  = jsonWorker.getElemStr("order_id");
+                buyOrderHist = e.Request("order_trades",new HashMap<String, String>() {{put("order_id", myBuyOrderId);}});
+                if (buyOrderHist.equals("{}")) {
+                    System.out.println("Выход, продолжаем надеяться докупить валюту по тому курсу, по которому уже купили часть");
+                    return;
+                }
+                else
+                    System.out.println("Частично исполненных ордеров нет");
+
+            }
+        }
+        //Есть ли CURRENCY_1 для продажи
+        String userInfo = e.Request("user_info", null);
+        jsonWorker.setJsonObj(userInfo);
+        jsonWorker.setArrayName("BTC_USD");
+        String orderTypr = jsonWorker.getElemStr("type");
+
         openedOrders ="{\"BTC_USD\": [{\"order_id\": \"14\",\"created\": \"1435517311\",\"type\": \"buy\",\"pair\": \"BTC_USD\",\"price\": \"100\",\"quantity\": \"1\",\"amount\": \"100\"}]}";
         System.out.println("openedOrders="+openedOrders);
         String tradesInfo = e.Request("trades", new HashMap<String, String>() {{put("pair", CURRENT_PAIR);}});
         TradeInfo tradeInfo = new TradeInfo(tradesInfo,"BTC_USD");
-       // System.out.println(tradesInfo);
-//-----------------------
-        JsonWorker jsonWorker = new JsonWorker();
+        System.out.println(tradesInfo);
+//------------------JsonWorkerExamle-----
+       /* JsonWorker jsonWorker = new JsonWorker();
         jsonWorker.setJsonObj(tradesInfo);
         jsonWorker.setArrayName("BTC_USD");
-        jsonWorker.getArrElem("price");
+        jsonWorker.getArrElem("price");*/
         //----------------------------
 
 

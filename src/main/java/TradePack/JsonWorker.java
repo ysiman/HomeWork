@@ -20,7 +20,7 @@ public class JsonWorker {
     JSONObject jsonObj;
     JSONArray jsonArray;
     static  long getTime = 0;
-    String elemStr;
+
 
     void setJsonObj(String userInf){
         userInfo = userInf;
@@ -39,12 +39,24 @@ public class JsonWorker {
     }
 
     void getArrElem(String key) {
+        String elemStr;
         Iterator i = jsonArray.iterator();
         while (i.hasNext()) {
             JSONObject innerObj = (JSONObject) i.next();
             elemStr = (String) innerObj.get(key);
             System.out.println(key + "= " + elemStr);
         }
+    }
+
+    String getElemStr(String key) {
+        String elemStr;
+        Iterator i = jsonArray.iterator();
+        while (i.hasNext()) {
+            JSONObject innerObj = (JSONObject) i.next();
+            elemStr = (String) innerObj.get(key);
+           return elemStr;
+        }
+        return "null";
     }
 
 
