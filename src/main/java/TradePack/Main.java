@@ -7,7 +7,7 @@ import java.util.*;
 
 
 public class Main {
-
+    public static int n = 1;
 
     public static void main(String[] args) {
         String CURRENCY_1 = "BTC";
@@ -15,7 +15,7 @@ public class Main {
         String CURRENT_PAIR = CURRENCY_1 + "_" + CURRENCY_2;
         double STOCK_FEE = 0.002d; // Комиссия, которую берет биржа (0.002 = 0.2%)
         double PROFIT_MARKUP = 0.001d;// # Какой навар нужен с каждой сделки? (0.001 = 0.1%)
-        double CAN_SPEND = 5.0d;
+        double CAN_SPEND = 20.0d;
         double myAmount;
         double minQuantity;
         double avgPrice;
