@@ -70,7 +70,7 @@ public class JsonWorker {
        // System.out.println("elem = [" + elem);
        return arrName;
     }
-
+    //NEW
     String getElem(String key) {
         //jsonObj = (JSONObject) jsonObj.get(key);
         String elem = (String) jsonObj.get(key);
