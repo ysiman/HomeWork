@@ -7,7 +7,7 @@ import java.util.*;
 
 
 public class Main {
-    public static int n = 1;
+    public static int n = 2;
 
     public static void main(String[] args) {
         String CURRENCY_1 = "BTC";
@@ -71,6 +71,9 @@ public class Main {
 
         openedOrders ="{\"BTC_USD\": [{\"order_id\": \"14\",\"created\": \"1435517311\",\"type\": \"buy\",\"pair\": \"BTC_USD\",\"price\": \"100\",\"quantity\": \"1\",\"amount\": \"100\"}]}";
         System.out.println("openedOrders="+openedOrders);
+        jsonWorker.setJsonObj(openedOrders);
+        jsonWorker.setArrayName("BTC_USD");
+        System.out.println("jsonWorker.getElemStr = " + jsonWorker.getElemStr("order_id"));
         String tradesInfo = e.Request("trades", new HashMap<String, String>() {{put("pair", CURRENT_PAIR);}});
         TradeInfo tradeInfo = new TradeInfo(tradesInfo,"BTC_USD");
         System.out.println(tradesInfo);
@@ -91,6 +94,7 @@ public class Main {
         myAmount = CAN_SPEND/myNeedPrice;
         System.out.println("myAmount ="+myAmount);
         minQuantity = PairSettings.getMinQuantity("BTC_USD");
+        PairSettings.getMinQuantity2("BTC_USD");
         System.out.println("minQuantity ="+minQuantity);
         if (myAmount > minQuantity)
             System.out.println("Go!go!go!");

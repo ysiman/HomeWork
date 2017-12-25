@@ -34,10 +34,11 @@ public class JsonWorker {
         jsonObj = (JSONObject) obj;
         //
     }
+
     void setArrayName(String arrName){
+        System.out.println("arrName = " + arrName );
         jsonArray = (JSONArray) jsonObj.get(arrName);
     }
-
     void getArrElem(String key) {
         String elemStr;
         Iterator i = jsonArray.iterator();
@@ -50,6 +51,10 @@ public class JsonWorker {
 
     String getElemStr(String key) {
         String elemStr;
+        if (jsonArray == null )
+        {
+            return "null";
+        }
         Iterator i = jsonArray.iterator();
         while (i.hasNext()) {
             JSONObject innerObj = (JSONObject) i.next();
@@ -59,6 +64,19 @@ public class JsonWorker {
         return "null";
     }
 
+    String setArrElem(String arrName) {
+        jsonObj = (JSONObject) jsonObj.get(arrName);
+        //String elem = (String) jsonObj.get(arrName);
+       // System.out.println("elem = [" + elem);
+       return arrName;
+    }
+
+    String getElem(String key) {
+        //jsonObj = (JSONObject) jsonObj.get(key);
+        String elem = (String) jsonObj.get(key);
+        System.out.println("elem = " + elem);
+        return elem;
+    }
 
 
 }
