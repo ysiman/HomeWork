@@ -64,7 +64,7 @@ public class Main {
             }
         }
         //Есть ли CURRENCY_1 для продажи
-        String userInfo = e.Request("user_info", null);
+        String userInfo = e.Request("user_info", null);System.out.println("userInfo = [" + userInfo);
         jsonWorker.setJsonObj(userInfo);
         jsonWorker.setArrayName("BTC_USD");
         String orderTypr = jsonWorker.getElemStr("type");
@@ -74,9 +74,9 @@ public class Main {
         jsonWorker.setJsonObj(openedOrders);
         jsonWorker.setArrayName("BTC_USD");
         System.out.println("jsonWorker.getElemStr = " + jsonWorker.getElemStr("order_id"));
-        String tradesInfo = e.Request("trades", new HashMap<String, String>() {{put("pair", CURRENT_PAIR);}});
-        TradeInfo tradeInfo = new TradeInfo(tradesInfo,"BTC_USD");
-        System.out.println(tradesInfo);
+        String tradesInfoStr = e.Request("trades", new HashMap<String, String>() {{put("pair", CURRENT_PAIR);}});
+        TradeInfo tradeInfo = new TradeInfo(tradesInfoStr,"BTC_USD");
+        //System.out.println("tradesInfo="+tradesInfo);
 //------------------JsonWorkerExamle-----
        /* JsonWorker jsonWorker = new JsonWorker();
         jsonWorker.setJsonObj(tradesInfo);
@@ -93,9 +93,14 @@ public class Main {
         System.out.println("myNeedPrice ="+myNeedPrice);
         myAmount = CAN_SPEND/myNeedPrice;
         System.out.println("myAmount ="+myAmount);
-        minQuantity = PairSettings.getMinQuantity("BTC_USD");
-        PairSettings.getMinQuantity2("BTC_USD");
+
+        String pairInf = Internet.getHttpInfo("https://api.exmo.com/v1/pair_settings/"); // Pair Info
+        jsonWorker.setJsonObj(pairInf);
+        jsonWorker.setMainElem("BTC_USD");
+        String minQuantStr = jsonWorker.getSubElem("min_quantity");
+        minQuantity = Double.valueOf(minQuantStr);
         System.out.println("minQuantity ="+minQuantity);
+
         if (myAmount > minQuantity)
             System.out.println("Go!go!go!");
         //myAmount = CAN_SPEND/myNeedPrice;
