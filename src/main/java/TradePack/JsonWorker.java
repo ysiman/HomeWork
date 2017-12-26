@@ -64,14 +64,14 @@ public class JsonWorker {
         return "null";
     }
 
-    String setArrElem(String arrName) {
+    String setMainElem(String arrName) {
         jsonObj = (JSONObject) jsonObj.get(arrName);
         //String elem = (String) jsonObj.get(arrName);
        // System.out.println("elem = [" + elem);
        return arrName;
     }
     //NEW
-    String getElem(String key) {
+    String getSubElem(String key) {
         //jsonObj = (JSONObject) jsonObj.get(key);
         String elem = (String) jsonObj.get(key);
         System.out.println("elem = " + elem);
