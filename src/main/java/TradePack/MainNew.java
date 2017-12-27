@@ -12,7 +12,7 @@ public class MainNew {
         String CURRENT_PAIR = CURRENCY_1 + "_" + CURRENCY_2;
         double STOCK_FEE = 0.002d; // Комиссия, которую берет биржа (0.002 = 0.2%)
         double PROFIT_MARKUP = 0.001d;// # Какой навар нужен с каждой сделки? (0.001 = 0.1%)
-        double CAN_SPEND = 20.0d;
+        double CAN_SPEND = 14.0d;
         double myAmount;
         double minQuantity;
         double avgPrice;
@@ -50,18 +50,23 @@ public class MainNew {
             }
         }
         //Есть ли CURRENCY_1 для продажи
-        String userInfo = e.Request("user_info", null);
-        System.out.println("userInfo = [" + userInfo);
-        jsonWorker.setJsonObj(userInfo);
-        jsonWorker.setArrayName("BTC_USD");
-        String orderTypr = jsonWorker.getElemStr("type");
+        String userInfoStr = e.Request("user_info", null);
+        UserInfo userInfo = new UserInfo(userInfoStr);
+
 
         openedOrders ="{\"BTC_USD\": [{\"order_id\": \"14\",\"created\": \"1435517311\",\"type\": \"buy\",\"pair\": \"BTC_USD\",\"price\": \"100\",\"quantity\": \"1\",\"amount\": \"100\"}]}";
         System.out.println("openedOrders="+openedOrders);
         jsonWorker.setJsonObj(openedOrders);
         jsonWorker.setArrayName("BTC_USD");
         System.out.println("jsonWorker.getElemStr = " + jsonWorker.getElemStr("order_id"));
-        String tradesInfoStr = e.Request("trades", new HashMap<String, String>() {{put("pair", CURRENT_PAIR);}});
+        String tradesInfoStr = e.Request("trades",
+                new HashMap<String, String>()
+                {
+                    {
+                        put("pair", CURRENT_PAIR);
+                    }
+                }
+                );
         TradeInfo tradeInfo = new TradeInfo(tradesInfoStr,"BTC_USD");
         //System.out.println("tradesInfo="+tradesInfo);
 //------------------JsonWorkerExamle-----
@@ -90,6 +95,24 @@ public class MainNew {
 
         if (myAmount > minQuantity)
             System.out.println("Go!go!go!");
+
+
+        double spendSum = myNeedPrice * minQuantity;
+        System.out.println("spendSum = " + spendSum);
+
+
+        if (userInfo.getBalances("USD") >= spendSum ) {
+            e.Request("order_create", new HashMap<String, String>() {
+                        {
+                            put("pair", CURRENT_PAIR);
+                            put("quantity", String.valueOf(minQuantity));
+                            put("price", String.valueOf(myNeedPrice));
+                            put("type", "buy");
+                        }
+                    }
+            );
+        }
+        //System.out.println('Создан ордер на покупку', new_order['order_id']);
         //myAmount = CAN_SPEND/myNeedPrice;
         //==================Получение информации из ссылки================
         /*URL url = JsonUtils.createUrl("https://api.exmo.com/v1/pair_settings/");
