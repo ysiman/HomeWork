@@ -10,19 +10,18 @@ import java.util.Date;
 import java.util.Iterator;
 
 class TradeInfo{
-    String userInfo;
+    String tradesInfoStr;
     JSONParser parser = new JSONParser();
     ArrayList<Double> price = new  ArrayList<>();
     JSONObject jsonObj;
     JSONArray jsonArray;
     static  long getTime = 0;
 
-    TradeInfo(String userInf,String pair){
-        userInfo = userInf;
+    TradeInfo(String tradesInfoStr,String pair){
+        tradesInfoStr = tradesInfoStr;
         Object obj = null;
-       // System.out.println("userInfo = " + userInfo );
         try {
-            obj = parser.parse(userInfo);
+            obj = parser.parse(tradesInfoStr);
         } catch (ParseException e1) {
             System.out.println("Something wrong!");
             e1.printStackTrace();
@@ -37,14 +36,9 @@ class TradeInfo{
         while (i.hasNext()) {
             JSONObject innerObj = (JSONObject) i.next();
             Date d = new Date() ;
-            //if (getTime == 0)
-            //    getTime =d.getTime();
             Long time_passed =  (d.getTime()/1000 - (Long) innerObj.get("date") )/60;
             if (time_passed == timeInMinute){
                 String priceStr= (String)innerObj.get("price");
-                // System.out.println("price = " + priceStr);
-                // double pric = Double.valueOf(price);
-                //  System.out.println("---pric = " + pric);
                 price.add(Double.valueOf((String)innerObj.get("price")));
             }
         }
