@@ -54,8 +54,8 @@ public class PairSettings {
        // System.out.println("pairInfo = " + pairInfo);
         jsonWorker.setJsonObj(pairInfo);
         System.out.println("pairStr = " + pairStr);
-         jsonWorker.setArrElem(pairStr);
-        String m = jsonWorker.getElem("min_quantity");
+         jsonWorker.setMainElem(pairStr);
+        String m = jsonWorker.getSubElem("min_quantity");
         System.out.println("m = " + m);
         /*double minQuantity;
         try {
