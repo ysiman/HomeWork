@@ -72,9 +72,8 @@ public class JsonWorker {
     }
     //NEW
     String getSubElem(String key) {
-        //jsonObj = (JSONObject) jsonObj.get(key);
         String elem = (String) jsonObj.get(key);
-        System.out.println("elem = " + elem);
+        //System.out.println("elem = " + elem);
         return elem;
     }
 
