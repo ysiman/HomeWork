@@ -97,6 +97,43 @@ public class MainNew {
         }
 
     }
+    public void checkOpenOrders(){
+        //информация об открытых ордерах
+        String orderType;
+        String openedOrders = e.Request("user_open_orders",null);
+        if (openedOrders.equals("{}")) {
+            System.out.println("No opened orders");
+            return;
+        }
+        else
+        {
+            int cnt = 0;
+            jsonWorker.setJsonObj(openedOrders);
+            jsonWorker.setArrayName("BTC_USD");
+            orderType = jsonWorker.getElemStr("type");
+            if (orderType.equals("sell")) {
+                    while (!openedOrders.equals("{}")){
+                        try {
+                            Thread.sleep(60000);
+                        } catch (InterruptedException e1) {
+                            System.out.println("Sleep exception");
+                            e1.printStackTrace();
+                        }
+                        openedOrders = e.Request("user_open_orders",null);
+                        System.out.println(cnt+": openedOrders="+openedOrders);
+                        //Проверка ордеров на продажу
+                        if (openedOrders.equals("{}")) {
+                            System.out.println("No opened orders");
+                            return;
+                        }
+                        cnt++;
+                    }
+                String mySellOrderId  = jsonWorker.getElemStr("order_id");
+                String closeDeal =  e.Request("order_cancel", new HashMap<String, String>() {{put("order_id", mySellOrderId);}});
+            }
+
+        }
+    }
     public  void Old() {
 
 
@@ -174,6 +211,7 @@ public class MainNew {
     public static void main(String[] args) {
         MainNew m = new MainNew();
         m.buy();
+        m.sell();
     }
 
 }
